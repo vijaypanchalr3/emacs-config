@@ -36,7 +36,6 @@
   ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
   (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-
 #+end_src
 ** Package system
 
@@ -68,38 +67,38 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 #+begin_src emacs-lisp
 
-  (dolist (mode '(org-mode-hook
-                       vterm-mode-hook
-                       eshell-mode-hook
-                       markdown-mode-hook
-                       helpful-mode-hook
-                       Custom-mode-hook
-                       LaTeX-mode-hook
-                       text-mode-hook
-                       inferior-python-mode-hook
-                       dired-mode-hook
-                       neotree-mode-hook
-                       image-mode-hook
-                       help-mode-hook
-                       calc-mode-hook
-                       calc-trail-mode-hook))
-        (add-hook mode(lambda () (display-line-numbers-mode 0))))
-      (dolist (mode '(neotree-mode-hook
-                      dashboard-mode-hook
-                      image-mode-hook
-                      vterm-mode-hook
-                      magit-mode-hook
-                      help-mode-hook
-                      package-menu-mode-hook
-                      calc-mode-hook
-                      text-mode-hook
-                      dired-mode-hook
-                      calc-trail-mode-hook))
-        (add-hook mode(lambda () (hide-mode-line-mode 1))))
-      (dolist (mode '(org-mode-hook))
-        (add-hook mode(lambda () (org-num-mode 1))))
-      (setq-default line-spacing 4)
-
+    (dolist (mode '(org-mode-hook
+                    vterm-mode-hook
+                    eshell-mode-hook
+                    markdown-mode-hook
+                    helpful-mode-hook
+                    Custom-mode-hook
+                    LaTeX-mode-hook
+                    text-mode-hook
+                    inferior-python-mode-hook
+                    dired-mode-hook
+                    neotree-mode-hook
+                    image-mode-hook
+                    help-mode-hook
+                    calc-mode-hook
+                    Info-mode-hook
+                    calc-trail-mode-hook))
+      (add-hook mode(lambda () (display-line-numbers-mode 0))))
+    (dolist (mode '(neotree-mode-hook
+                    dashboard-mode-hook
+                    image-mode-hook
+                    vterm-mode-hook
+                    magit-mode-hook
+                    help-mode-hook
+                    package-menu-mode-hook
+                    calc-mode-hook
+                    text-mode-hook
+                    dired-mode-hook
+                    calc-trail-mode-hook))
+      (add-hook mode(lambda () (hide-mode-line-mode 1))))
+    (dolist (mode '(org-mode-hook))
+      (add-hook mode(lambda () (org-num-mode 1))))
+    (setq-default line-spacing 4)
 
 
 #+end_src
@@ -265,7 +264,7 @@ Emacs Org mode is super Powerful and super customizable. this is small customiza
 
 Basic customization for Org mode
 
-** org-basics
+** Org-basics
 #+begin_src emacs-lisp
 
   (use-package org
@@ -275,18 +274,23 @@ Basic customization for Org mode
   (add-hook 'org-mode-hook 'org-overview)
   ;; (setq-default line-spacing 0)
   (provide 'emacs-orgmode-config)
-  (setq org-log-done nil)
-  (setq org-adapt-indentation nil)
-  ;;(setq org-startup-truncated t)
+
+  ;; (setq org-adapt-indentation nil)
+  ;; (setq org-startup-truncated t)
   (setq global-page-break-line-mode t)
   ;; (setq header-line-format " ")
   (customize-set-variable 'org-blank-before-new-entry 
                           '((heading . nil)
                             (plain-list-item . nil)))
-  (setq org-cycle-separator-lines 1)
   (setq backup-directory-alist `(("." . "~/.saves")))
+
   ;; (setq make-backup-files nil)
-  (setq org-image-actual-width (list 550))
+  (setq org-startup-indented t
+        org-pretty-entities t
+        org-startup-with-inline-images t
+        org-image-actual-width (list 550))
+  (setq org-cycle-separator-lines 1)
+  (setq org-log-done nil)
   (setq org-html-coding-system 'utf-8-unix)
   (eval-after-load "org"
     '(require 'ox-gfm nil t))
@@ -300,24 +304,25 @@ Basic customization for Org mode
 #+begin_src emacs-lisp
 
 
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode))
-  (setq org-bullets-bullet-list '("  "))
-  (setq org-indent-indentation-per-level 1)
-  (setq org-adapt-indentation nil)
-  (font-lock-add-keywords 'org-mode
-                            '(("^ *\\([-]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
-   ;; (dolist (face '((org-level-1 . 1.2)
-   ;;                 (org-level-2 . 1.2)
-   ;;                 (org-level-3 . 1.2)
-   ;;                 (org-level-4 . 1.2)
-   ;;                 (org-level-5 . 1.2)
-   ;;                 (org-level-6 . 1.2)
-   ;;                 (org-level-7 . 1.0)
-   ;;                 (org-level-8 . 1.0)))
-   ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
+    (use-package org-bullets
+      :after org
+      :hook (org-mode . org-bullets-mode))
+    (setq org-bullets-bullet-list '("  "))
+    (setq org-indent-indentation-per-level 1)
+    (setq org-adapt-indentation nil)
+    (font-lock-add-keywords 'org-mode
+                              '(("^ *\\([-]\\) "
+                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
+    (dolist (face '((org-level-1 . 1.1)
+                    (org-level-2 . 1.1)
+                    (org-level-3 . 1.05)
+                    (org-level-4 . 1.05)
+                    (org-level-5 . 1.05)
+                    (org-level-6 . 1.0)
+                    (org-level-7 . 1.0
+                                 )
+                    (org-level-8 . 1.0)))
+      (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
 
 
 #+end_src
@@ -327,6 +332,12 @@ Basic customization for Org mode
 
 
 #+begin_src emacs-lisp
+
+    (defun new-info-mode-fun ()
+      (setq visual-fill-column-center-text t
+            visual-fill-column-width 90)
+      (visual-fill-column-mode 1))
+    (add-hook 'Info-mode-hook 'new-info-mode-fun)
 
 
     (defun efs/org-mode-visual-fill ()
@@ -360,6 +371,7 @@ Basic customization for Org mode
     :config
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
     (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
+    ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
   (custom-theme-set-faces
        'user
        '(org-block ((t (:inherit fixed-pitch))))
@@ -387,13 +399,14 @@ This is give way to use language in emacs org mode for execution.
  #+begin_src emacs-lisp
 
 
-   
+
    (setq org-confirm-babel-evaluate nil)
    (setq org-babel-python-command "python3")
    (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)
-      (python . t)))
+      (python . t)
+      (jupyter .t)))
 
 
  #+end_src
@@ -405,12 +418,11 @@ This block help me to tangle automatically everytime i save this file.d
 
 (defun efs/org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
-                      (expand-file-name "/home/vijay/myfiles/emacs.org"))
+                      (expand-file-name "/home/vijay/emacs-config/emacs.org"))
     ;; Dynamic scoping to the rescue
     (let ((org-confirm-babel-evaluate nil))
       (org-babel-tangle))))
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
-
 
  #+end_src
 ** LaTeX Preview inside org
@@ -464,12 +476,38 @@ I will make bullets iconful,
 
 
 #+end_src
+** Auto-capitalization
+
+#+begin_src emacs-lisp
+  ;;(use-package captain)
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (setq captain-predicate
+           (lambda () (not (org-in-src-block-p))))
+     (captain-mode 1)
+     (abbrev-mode 1)
+     (setq sentence-end-double-space nil)))
+#+end_src
+** Abbrev-mode
+
+
+#+begin_src emacs-lisp
+(setq abbrev-expand-function (lambda ()
+                   (unless (org-in-src-block-p)
+                 (abbrev--default-expand))))
+
+#+end_src
 * Markdown-mode
 #+begin_src emacs-lisp
 
 
-(add-hook 'markdown-mode-hook 'markdown-toggle-markup-hiding)
-
+  ;; (add-hook 'markdown-mode-hook
+  ;;           (lambda ()
+  ;;             (markdow
+  ;;              n-toggle-markup-hiding 1)
+  ;;             (captain-mode 1)
+  ;;             (abbrev-mode 1)))
 
 #+end_src
 * Structural Templates
@@ -723,28 +761,11 @@ I'm using vterm but i am just configuring Eshell
     :ensure t
     :config
     (dashboard-setup-startup-hook))
-
-  ;; Set the title
-  ;; Makes *scratch* empty.
   (setq initial-scratch-message "")
   (defun remove-scratch-buffer ()
     (if (get-buffer "*scratch*")
         (kill-buffer "*scratch*")))
   (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
-  ;; (setq dashboard-navigator-buttons
-  ;;       `(;; line1
-  ;;         ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-  ;;          "Homepage"
-  ;;          "Browse homepage"
-  ;;          (lambda (&rest _) (browse-url "homepage")))
-  ;;         ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
-  ;;         ("?" "" "?/h" #'show-help nil "<" ">"))
-  ;;          ;; line 2
-  ;;         ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
-  ;;           "Linkedin"
-  ;;           ""
-  ;;           (lambda (&rest _) (browse-url "homepage")))
-  ;;          ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
   (setq dashboard-banner-logo-title nil)
   (setq dashboard-startup-banner "~/.emacs.d/drawing2.png")
   (setq dashboard-center-content t)
@@ -928,7 +949,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
       (mark-defun)
       (indent-region (region-beginning) (region-end))))
 
-
+ 
 
 
 #+end_src
@@ -1019,9 +1040,6 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-<tab>")  'crux-indent-defun)
   (global-set-key (kbd "C-x K") 'crux-kill-other-buffers)
   (global-set-key (kbd "M-P") 'flyspell-mode)
+  
 #+end_src
-
-
-
-
-
+* Python-Jupyter
