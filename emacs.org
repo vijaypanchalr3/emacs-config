@@ -14,7 +14,6 @@
 
 * General settings 
 ** Encoding system
-
 #+begin_src emacs-lisp
 
 
@@ -56,6 +55,9 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
+
   (require 'use-package)
   (setq use-package-always-ensure t)
   (setq inhibit-startup-message t)
@@ -67,107 +69,121 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 #+begin_src emacs-lisp
 
-    (dolist (mode '(org-mode-hook
-                    vterm-mode-hook
-                    eshell-mode-hook
-                    markdown-mode-hook
-                    helpful-mode-hook
-                    Custom-mode-hook
-                    LaTeX-mode-hook
-                    text-mode-hook
-                    inferior-python-mode-hook
-                    dired-mode-hook
-                    neotree-mode-hook
-                    image-mode-hook
-                    help-mode-hook
-                    calc-mode-hook
-                    Info-mode-hook
-                    calc-trail-mode-hook))
-      (add-hook mode(lambda () (display-line-numbers-mode 0))))
-    (dolist (mode '(neotree-mode-hook
-                    dashboard-mode-hook
-                    image-mode-hook
-                    vterm-mode-hook
-                    magit-mode-hook
-                    help-mode-hook
-                    package-menu-mode-hook
-                    calc-mode-hook
-                    text-mode-hook
-                    dired-mode-hook
-                    calc-trail-mode-hook))
-      (add-hook mode(lambda () (hide-mode-line-mode 1))))
-    (dolist (mode '(org-mode-hook))
-      (add-hook mode(lambda () (org-num-mode 1))))
-    (setq-default line-spacing 4)
-
+  (dolist (mode '(org-mode-hook
+                  vterm-mode-hook
+                  eshell-mode-hook
+                  markdown-mode-hook
+                  helpful-mode-hook
+                  Custom-mode-hook
+                  LaTeX-mode-hook
+                  text-mode-hook
+                  inferior-python-mode-hook
+                  dired-mode-hook
+                  neotree-mode-hook
+                  image-mode-hook
+                  help-mode-hook
+                  Man-mode-hook
+                  calc-mode-hook
+                  Info-mode-hook
+                  calc-trail-mode-hook))
+    (add-hook mode(lambda () (display-line-numbers-mode 0))))
+  (use-package hide-mode-line)
+  (dolist (mode '(neotree-mode-hook
+                  dashboard-mode-hook
+                  image-mode-hook
+                  vterm-mode-hook
+                  magit-mode-hook
+                  help-mode-hook
+                  package-menu-mode-hook
+                  calc-mode-hook
+                  text-mode-hook
+                  dired-mode-hook
+                  calc-trail-mode-hook))
+    (add-hook mode(lambda () (hide-mode-line-mode 1))))
+  (dolist (mode '(org-mode-hook))
+    (add-hook mode(lambda () (org-num-mode 1))))
+  (setq-default line-spacing 4)
+  
 
 #+end_src
+* Tangle automation
+This block help me to tangle automatically everytime i save this file.d
+
+ #+begin_src emacs-lisp
+
+
+(defun efs/org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name)
+                      (expand-file-name "/home/vijay/emacs-config/emacs.org"))
+    ;; Dynamic scoping to the rescue
+    (let ((org-confirm-babel-evaluate nil))
+      (org-babel-tangle))))
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
+
+ #+end_src
+
+ #+RESULTS: 
 * Modeline
 
 #+begin_src emacs-lisp
 
-    (use-package all-the-icons)
-    ;; (use-package doom-modeline
-    ;;   :init (doom-modeline-mode 1)
-    ;;   :config
-    ;;   (setq doom-modeline-height 25)
-    ;;   (setq doom-modeline-buffer-modification-icon t)
-    ;;   (setq doom-modeline-hud nil)
-    ;;   (setq doom-modeline-bar-width 20)
-    ;;   (setq doom-modeline-modal-icon t)
-    ;;   (setq doom-modeline-window-width-limit fill-column)
-    ;;   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-    ;;   (setq doom-modeline-buffer-modification-icon nil)
-    ;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
+  (use-package all-the-icons)
+      ;; (use-package doom-modeline
+      ;;   :init (doom-modeline-mode 1)
+      ;;   :config
+      ;;   (setq doom-modeline-height 25)
+      ;;   (setq doom-modeline-buffer-modification-icon t)
+      ;;   (setq doom-modeline-hud nil)
+      ;;   (setq doom-modeline-bar-width 20)
+      ;;   (setq doom-modeline-modal-icon t)
+      ;;   (setq doom-modeline-window-width-limit fill-column)
+      ;;   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+      ;;   (setq doom-modeline-buffer-modification-icon nil)
+      ;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
+  ;; (use-package nano-theme
+  ;;   :ensure nil
+  ;;   :defer t
+  ;;   :config
+  ;;   (load-theme 'nano-light t))
+  (use-package nano-modeline
+      :init (nano-modeline-mode 1))
+  (setq no-mode-line t)
+#+end_src
+* Set-trasperenct
 
-(use-package nano-modeline
-    :init (nano-modeline-mode 1))
-(setq no-mode-line t)
+#+begin_src emacs-lisp
+  ;; set transparency
+  ;; (set-frame-parameter (selected-frame) 'alpha '(98 98))
+  ;; (add-to-list 'default-frame-alist '(alpha 98 98))
 #+end_src
 * Setting variables
 
 #+begin_src emacs-lisp
+  
+  (custom-set-variables
+   '(column-number-mode t)
+   '(display-time-mode t)
+   '(electric-pair-mode t)
+   '(font-use-system-font nil)
+   '(global-display-line-numbers-mode t)
+   '(menu-bar-mode nil)
+   '(org-fontify-done-headline nil)
+   '(org-fontify-todo-headline nil)
+   '(package-selected-packages
+     '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+   '(scroll-bar-mode nil)
+   '(show-paren-mode t)
+   '(size-indication-mode t)
+   '(window-divider-mode t)
+   '(window-divider-default-places t)
+   '(window-divider-default-bottom-width 1)
+   '(tool-bar-mode nil)
+   '(scroll-conservatively 100) 
+   '(save-place-mode t))
 
-
-    ;; set transparency
-    ;;(set-frame-parameter (selected-frame) 'alpha '(90 90))
-    ;;(add-to-list 'default-frame-alist '(alpha 90 90))
-    (custom-set-variables
-     '(column-number-mode t)
-     ;;'(custom-enabled-themes '(tango))
-     ;;'(custom-safe-themes
-     ;; 
-     ;;)
-     '(display-time-mode t)
-     '(electric-pair-mode t)
-     '(font-use-system-font nil)
-     '(global-display-line-numbers-mode t)
-     '(menu-bar-mode nil)
-     '(org-fontify-done-headline nil)
-     '(org-fontify-todo-headline nil)
-     '(package-selected-packages
-       '(mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
-     '(scroll-bar-mode nil)
-     '(show-paren-mode t)
-     '(size-indication-mode t)
-     '(window-divider-mode t)
-     '(tool-bar-mode nil)
-     '(save-place-mode t))
-    (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
-  ;; Your customisations here.  For example:
-  ;; (setq modus-themes-bold-constructs t
-  ;;       modus-themes-mode-line '3d) 
-
-  ;; Load the theme files before enabling a theme (else you get an error).
-
-  ;; Enable the theme of your preference:
-
-       ;; Optionally add a key binding for the toggle between the themes:
-  ;;(modus-themes-load-themes)
-  ;;(define-key global-map (kbd "<f5>") #'modus-themes-toggle)
+  (set-face-attribute 'default nil :font "JetBrains Mono NL" :height 110)
   (setq ring-bell-function 'ignore)
 
-  ;;(use-package modus-themes)
 #+end_src
 * Better UX experience
 ** Ivy
@@ -190,14 +206,12 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
          ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1))
-(ivy-explorer-mode 1)
-(use-package ivy-prescient
-    :after counsel
-    :config
-    (ivy-prescient-mode 1))
-(use-package ivy-rich
-  :init
-  (ivy-rich-mode 1))
+(use-package ivy-explorer
+  :config
+  (ivy-explorer-mode 1))
+
+(use-package ivy-rich)
+(ivy-rich-mode 1)
 
 
 #+end_src
@@ -226,7 +240,10 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
          ("C-r" . 'counsel-minibuffer-history))
   :config
   (counsel-mode 1))
-
+(use-package ivy-prescient
+    :after counsel
+    :config
+    (ivy-prescient-mode 1))
 
 #+end_src
 ** Helpful
@@ -257,6 +274,22 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 
 #+end_src
+** smooth scrolling
+#+begin_src emacs-lisp
+  (use-package smooth-scrolling)
+  ;; (smooth-scrolling-mode 1)
+  ;;(use-package sublimity)
+    ;; (use-package sublimity-scroll)
+    ;; (use-package sublimity-attractive)
+    ;;
+  ;;(sublimity-mode 1)
+  ;; (setq sublimity-attractive-centering-width 150)
+  ;; (setq sublimity-attractive-centering-width 110)
+
+  ;; (setq sublimity-scroll-weight 10
+  ;;    sublimity-scroll-drift-length 5)
+  ;; (setq sublimity-scroll-vertical-frame-delay 0.01)
+#+end_src
 * Org-mode
 
 Emacs Org mode is super Powerful and super customizable. this is small customization of emacs org mode.
@@ -270,7 +303,9 @@ Basic customization for Org mode
   (use-package org
     :config
     (setq org-ellipsis " "
-          org-hide-emphasis-markers t))
+          org-hide-emphasis-markers t)
+    :bind
+    ("<f12>" . org-cycle-list-bullet))
   (add-hook 'org-mode-hook 'org-overview)
   ;; (setq-default line-spacing 0)
   (provide 'emacs-orgmode-config)
@@ -304,25 +339,24 @@ Basic customization for Org mode
 #+begin_src emacs-lisp
 
 
-    (use-package org-bullets
-      :after org
-      :hook (org-mode . org-bullets-mode))
-    (setq org-bullets-bullet-list '("  "))
-    (setq org-indent-indentation-per-level 1)
-    (setq org-adapt-indentation nil)
-    (font-lock-add-keywords 'org-mode
-                              '(("^ *\\([-]\\) "
-                                 (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
-    (dolist (face '((org-level-1 . 1.1)
-                    (org-level-2 . 1.1)
-                    (org-level-3 . 1.05)
-                    (org-level-4 . 1.05)
-                    (org-level-5 . 1.05)
-                    (org-level-6 . 1.0)
-                    (org-level-7 . 1.0
-                                 )
-                    (org-level-8 . 1.0)))
-      (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+  (setq org-bullets-bullet-list '("  "))
+  (setq org-indent-indentation-per-level 1)
+  (setq org-adapt-indentation nil)
+  (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
+  ;; (dolist (face '((org-level-1 . 1.1)
+  ;;                 (org-level-2 . 1.1)
+  ;;                 (org-level-3 . 1.05)
+  ;;                 (org-level-4 . 1.05)
+  ;;                 (org-level-5 . 1.05)
+  ;;                 (org-level-6 . 1.0)
+  ;;                 (org-level-7 . 1.0)
+  ;;                 (org-level-8 . 1.0)))
+  ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
 
 
 #+end_src
@@ -364,31 +398,7 @@ Basic customization for Org mode
  djk fk fkdjsfe abcdfghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ =Abcsfljfl= *dkfaj jkjkjkd* /fjkjskl/ /asdfhjhjhj/ 
 #+begin_src emacs-lisp
 
-  (use-package mixed-pitch
-    :hook
-    ;; If you want it in all text modes:
-    (text-mode . mixed-pitch-mode)
-    :config
-    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-    (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
-    ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
-  (custom-theme-set-faces
-       'user
-       '(org-block ((t (:inherit fixed-pitch))))
-       '(org-code ((t (:inherit (shadow fixed-pitch)))))
-       '(org-document-title ((t (:height 140 :weight bold))))
-       '(org-tag ((t (:height 100))))
-       '(org-special-keyword ((t (:height 100))))
-       '(org-document-info ((t (:height 100))))
-       '(org-document-info-keyword ((t (:height 100))))
-       '(org-property-value ((t (:height 100))))
-       '(org-meta-line ((t (:height 100))))
-       '(org-verbatim ((t (:inherit fixed-pitch))))
-       '(org-block-begin-line ((t (:height 100))))
-       '(org-block-end-line ((t (:height 100))))
-       '(org-drawer ((t (:height 100))))
-       ;;'(org-date ((t (:inherit variable-pitch)))
-       '(org-link ((t (:underline t)))))
+  
 
 
 #+end_src
@@ -405,28 +415,12 @@ This is give way to use language in emacs org mode for execution.
    (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)
-      (python . t)
-      (jupyter .t)))
+      (python . t)))
 
-
- #+end_src
-** Tangle automation
-This block help me to tangle automatically everytime i save this file.d
-
- #+begin_src emacs-lisp
-
-
-(defun efs/org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "/home/vijay/emacs-config/emacs.org"))
-    ;; Dynamic scoping to the rescue
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
 
  #+end_src
 ** LaTeX Preview inside org
-c
+
 Well, First you need *dvipng*  from package manager and also, *texlive-extra*. This will help to produce Latex png files.
 
 Techniqly, i can use imagemagick and i always have that but i think that's too big for such task.
@@ -434,8 +428,8 @@ Techniqly, i can use imagemagick and i always have that but i think that's too b
 #+begin_src emacs-lisp
 
 
-(setq org-latex-create-formula-image-program 'dvipng)
-(plist-put org-format-latex-options :scale 2)
+  (setq org-latex-create-formula-image-program 'dvipng)
+  (plist-put org-format-latex-options :scale 2)
 
 
 #+end_src
@@ -446,12 +440,18 @@ I will make bullets iconful,
 #+begin_src emacs-lisp
 
   (setq org-todo-keywords
-        '(
-          (sequence "IDEA(i)" "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
-          (sequence "|" "CANCELED(c)" "DELEGATED(l)" "SOMEDAY(f)")))
-  ;;  ("TODO" . (:foreground "#24448C" :weight bold))
+        '((sequence "IDEA(i)")
+          (sequence "TODO(t)")
+          (sequence "STARTED(s)")
+          (sequence "NEXT(n)")
+          (sequence "WAITING(w)")
+          (sequence "DONE(d)")
+          (sequence "CANCELED(c)")
+          (sequence "SOMEDAY(f)")))
+  ;;(sequence "|" "CANCELED(c)" "DELEGATED(l)" "SOMEDAY(f)")))
   (setq org-todo-keyword-faces
         '(("IDEA" . (:foreground "#F8BC5C" :weight bold))
+          ("TODO" . (:foreground "#24448C" :weight bold))
           ("NEXT" . (:foreground "#74A466" :weight bold))
           ("STARTED" . (:foreground "#DC4424" :weight bold))
           ("WAITING" . (:foreground "#CCA4A0" :weight bold))
@@ -461,7 +461,6 @@ I will make bullets iconful,
   (setq org-fast-tag-selection-single-key t)
   (setq org-use-fast-todo-selection t)
   (setq org-reverse-note-order t)
-
 
 #+end_src
 ** Source block customization
@@ -479,7 +478,7 @@ I will make bullets iconful,
 ** Auto-capitalization
 
 #+begin_src emacs-lisp
-  ;;(use-package captain)
+  (use-package captain)
   (add-hook
    'org-mode-hook
    (lambda ()
@@ -504,8 +503,7 @@ I will make bullets iconful,
 
   ;; (add-hook 'markdown-mode-hook
   ;;           (lambda ()
-  ;;             (markdow
-  ;;              n-toggle-markup-hiding 1)
+  ;;             (markdown-toggle-markup-hiding 1)
   ;;             (captain-mode 1)
   ;;             (abbrev-mode 1)))
 
@@ -588,78 +586,78 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+end_src
 ** Language configuration
-*** CSS
-
-#+begin_src emacs-lisp
-
-
-  (use-package css-mode
-    :mode "\\.css\\'"
-    :hook (css-mode . lsp-deferred)
-    :config
-    (setq css-indent-level 4))
-
-
-#+end_src
 *** Python
 
 #+begin_src emacs-lisp
 
-  (use-package python-mode
-    :ensure nil
-    :hook (python-mode . lsp-deferred))
+  
+  ;; (use-package python-mode
+  ;;   :ensure nil
+  ;;   :hook (python-mode . lsp-deferred))
 
-  (setq python-shell-interpreter "python3.9")
-  (setq python-shell-interpreter-args "-i")
-  (use-package lsp-pyright
+  ;; (setq python-shell-interpreter "python3.9")
+  ;; (setq python-shell-interpreter-args "-i")
+  ;; (use-package lsp-pyright
+  ;;   :ensure t
+  ;;   :hook (python-mode . (lambda ()
+  ;;                          (require 'lsp-pyright)
+  ;;                          (lsp))))  ; or lsp-deferred
+
+
+#+end_src
+*** julia
+
+#+begin_src emacs-lisp
+
+  (use-package lsp-julia
     :ensure t
-    :hook (python-mode . (lambda ()
-                           (require 'lsp-pyright)
-                           (lsp))))  ; or lsp-deferred
-
-
+    :hook (julia-mode . (lambda () (lsp))))
+  
 #+end_src
 *** C and C++
 #+begin_src emacs-lisp
 
   ;; (add-hook 'c++-mode-hook 'lsp)
   ;; (add-hook 'c-mode-hook 'lsp)
-  ;; ;;(add-hook 'objc-mode-hook 'irony-mode)
-
 
 #+end_src
 *** Rust
 #+begin_src emacs-lisp
 
+  (setq lsp-rust-analyzer-server-command (list (substring (shell-command-to-string "rustup which rust-analyzer") 0 -1)))
+  ;; (setq lsp-rust-analyzer-server-command (list (substring (shell-command-to-string "rustup which rls") 0 -1)))
+  (use-package cargo)
 
-  ;; (use-package rustic
-  ;;   :ensure
-  ;;   :bind (:map rustic-mode-map
-  ;;               ("M-j" . lsp-ui-imenu)
-  ;;               ("M-?" . lsp-find-references)
-  ;;               ("C-c C-c l" . flycheck-list-errors)
-  ;;               ("C-c C-c a" . lsp-execute-code-action)
-  ;;               ("C-c C-c r" . lsp-rename)
-  ;;               ("C-c C-c q" . lsp-workspace-restart)
-  ;;               ("C-c C-c Q" . lsp-workspace-shutdown)
-  ;;               ("C-c C-c s" . lsp-rust-analyzer-status))
-  ;;   :config
-  ;;   ;; uncomment for less flashiness
-  ;;   ;; (setq lsp-eldoc-hook nil)
-  ;;   ;; (setq lsp-enable-symbol-highlighting nil)
-  ;;   ;; (setq lsp-signature-auto-activate nil)
 
-  ;;   ;; comment to disable rustfmt on save
-  ;;   (setq rustic-format-on-save t)
-  ;;   (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
-  ;; (defun rk/rustic-mode-hook ()
-  ;;   ;; so that run C-c C-c C-r works without having to confirm, but don't try to
-  ;;   ;; save rust buffers that are not file visiting. Once
-  ;;   ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
-  ;;   ;; no longer be necessary.
-  ;;   (when buffer-file-name
-  ;;     (setq-local buffer-save-without-query t)))
+  (use-package rustic
+    :ensure
+    :bind (:map rustic-mode-map
+                ("M-j" . lsp-ui-imenu)
+                ("M-?" . lsp-find-references)
+                ("C-c C-c l" . flycheck-list-errors)
+                ("C-c C-c a" . lsp-execute-code-action)
+                ("C-c C-c r" . lsp-rename)
+                ("C-c C-c q" . lsp-workspace-restart)
+                ("C-c C-c Q" . lsp-workspace-shutdown)
+                ("C-c C-c s" . lsp-rust-analyzer-status))
+    :config
+    ;; uncomment for less flashiness
+    ;; (setq lsp-eldoc-hook nil)
+    ;; (setq lsp-enable-symbol-highlighting nil)
+    ;; (setq lsp-signature-auto-activate nil)
 
+    ;; comment to disable rustfmt on save
+    (setq rustic-format-on-save t)
+    (add-hook 'rustic-mode-hook 'cargo-minor-mode)
+    (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+  (defun rk/rustic-mode-hook ()
+    ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+    ;; save rust buffers that are not file visiting. Once
+    ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+    ;; no longer be necessary.
+    (when buffer-file-name
+      (setq-local buffer-save-without-query t)))
 
 #+end_src
 ** Company
@@ -670,7 +668,8 @@ LSP mode is single hand funcyion for making emacs ide.
   (use-package company
     :after lsp-mode
     :hook '((lsp-mode . company-mode)
-            (prog-mode . company-mode))
+            (prog-mode . company-mode)
+            (fortran-mode . company-mode))
     :bind (:map company-active-map
                 ("<tab>" . company-complete-selection))
     (:map lsp-mode-map
@@ -753,10 +752,6 @@ I'm using vterm but i am just configuring Eshell
 * splash screen
 #+begin_src emacs-lisp
 
-
-  ;;(require 'dashboard)
-  ;;(dashboard-setup-startup-hook)
-  ;; Or if you use use-package
   (use-package dashboard
     :ensure t
     :config
@@ -767,17 +762,17 @@ I'm using vterm but i am just configuring Eshell
         (kill-buffer "*scratch*")))
   (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
   (setq dashboard-banner-logo-title nil)
-  (setq dashboard-startup-banner "~/.emacs.d/drawing2.png")
+  (setq dashboard-startup-banner "~/.emacs.d/banner.png")
   (setq dashboard-center-content t)
   ;; To disable shortcut "jump" indicators for each section, set
   (setq dashboard-show-shortcuts t)
-  (setq dashboard-items '((recents  . 15)
+  (setq dashboard-items '((recents  . 10)
                           (bookmarks . 10)))
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons nil)
+  (setq dashboard-set-navigator t)
   ;;(dashboard-modify-heading-icons '((recents . "file-text")
   ;;                                  (bookmarks . "book")))
-  (setq dashboard-set-navigator t)
   (setq dashboard-set-footer nil)
 
 
@@ -799,8 +794,11 @@ I'm using vterm but i am just configuring Eshell
 * MAN pages
 #+begin_src emacs-lisp
 
-  (add-hook 'Man-mode-hook 'display-line-numbers-mode)
-  (add-hook 'Man-mode-hook 'hide-mode-line-mode)
+  (add-hook 'Man-mode-hook
+            (lambda ()
+              (visual-fill-column-mode 1)
+              (setq visual-fill-column-width 100)
+              (setq visual-fill-column-center-text t)))
 
 #+end_src
 * Hacks from systemcrafters
@@ -813,10 +811,6 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (load custom-file 'noerror 'nomessage)
 
   ;;fff
-#+end_src
-* Move Line Up or Down
-#+begin_src emacs-lisp
-  
 #+end_src
 * dimmer
 #+begin_src emacs-lisp
@@ -968,47 +962,228 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "<f7>") 'pop-global-mark)
   (global-set-key (kbd "<f8>") 'xah-pop-local-mark-ring)
 #+end_src
-* Distraction-Free
+* Beauty and NANO-theme
 #+begin_src emacs-lisp
+  ;;
+  (setq nano-modeline-prefix-padding t)
+#+end_src
+* Better Dired
+** Dired-single
 
-  ;; Distraction-free screen
-  (use-package olivetti
-    :init
-    (setq olivetti-body-width .67)
-    :config
-    (defun distraction-free ()
-      "Distraction-free writing environment"
-      (interactive)
-        (if (equal olivetti-mode nil)
-            (progn
-              (window-configuration-to-register 1)
-              (delete-other-windows)
-              (text-scale-increase 0.7)
-              (setq visual-fill-column-width 120)
-              (olivetti-mode t)
-              (hide-mode-line-mode t)
-              (flyspell-mode t)
-              (toggle-frame-fullscreen))
-          (progn
-            (jump-to-register 1)
-            (setq visual-fill-column-width 150)
-            (olivetti-mode 0)
-            (toggle-frame-fullscreen)
-            (text-scale-decrease 0.7))))
-      :bind
-      (("<f9>" . distraction-free)))
+#+begin_src emacs-lisp
+  (use-package dired-single)
+  (defun my-dired-init ()
+    "Bunch of stuff to run for dired, either immediately or when it's
+       loaded."
+    ;; <add other stuff here>
+    (define-key dired-mode-map [remap dired-find-file]
+      'dired-single-buffer)
+    (define-key dired-mode-map [remap dired-mouse-find-file-other-window]
+      'dired-single-buffer-mouse)
+    (define-key dired-mode-map [remap dired-up-directory]
+      'dired-single-up-directory))
+
+  ;; if dired's already loaded, then the keymap will be bound
+  (if (boundp 'dired-mode-map)
+      ;; we're good to go; just add our bindings
+      (my-dired-init)
+    ;; it's not loaded yet, so add our bindings to the load-hook
+    (add-hook 'dired-load-hook 'my-dired-init))
+#+end_src
+** Dired-rainbow
+#+begin_src emacs-lisp
+  (with-eval-after-load 'dired  (use-package dired-filetype-face))
+  (deffiletype-face "julia" "#369325")
+  (deffiletype-face-regexp julia :extensions '("julia" "jl"))
+  (deffiletype-setup "julia")
+  (deffiletype-face "org" "#73A594")
+  (deffiletype-face-regexp org :extensions '("org" "org"))
+  (deffiletype-setup "org")
+  (deffiletype-face "python" "#ECC448")
+  (deffiletype-face-regexp python :extensions '("python" "py"))
+  (deffiletype-setup "python")
+  (deffiletype-face "cpp" "#32719A")
+  (deffiletype-face-regexp cpp
+    :extensions
+    '("c"
+      "cpp"
+      "f90"
+      "f95"))
+  (deffiletype-setup "cpp")
 
 
 #+end_src
+** Hide dot files
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'dired  (use-package dired-hide-dotfiles))
+  (defun my-dired-mode-hook ()
+      "My `dired' mode hook."
+      ;; To hide dot-files by default
+      (dired-hide-dotfiles-mode))
+
+    ;; To toggle hiding
+    (define-key dired-mode-map "." #'dired-hide-dotfiles-mode)
+    (add-hook 'dired-mode-hook #'my-dired-mode-hook)
+#+end_src
+* bookmark line
+
+#+begin_src emacs-lisp
+
+   (use-package bm
+     :init
+     (setq bm-restore-repository-on-load t)
+     :config
+
+     ;; Allow cross-buffer 'next'
+     (setq bm-cycle-all-buffers t)
+
+     ;; where to store persistant files
+     (setq bm-repository-file "~/.emacs.d/bm-repository")
+
+     ;; save bookmarks
+     (setq-default bm-buffer-persistence t)
+
+     ;; Loading the repository from file when on start up.
+     (add-hook 'after-init-hook 'bm-repository-load)
+
+     ;; Saving bookmarks
+     (add-hook 'kill-buffer-hook #'bm-buffer-save)
+
+     ;; Saving the repository to file when on exit.
+     ;; kill-buffer-hook is not called when Emacs is killed, so we
+     ;; must save all bookmarks first.
+     (add-hook 'kill-emacs-hook #'(lambda nil
+                                    (bm-buffer-save-all)
+                                    (bm-repository-save)))
+
+
+
+     ;; Restoring bookmarks
+     (add-hook 'find-file-hooks   #'bm-buffer-restore)
+     (add-hook 'after-revert-hook #'bm-buffer-restore)
+
+     ;; Make sure bookmarks is saved before check-in (and revert-buffer)
+     (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
+
+                                           ;the two functions that make bm-bookmark worth it.
+     (defun poseidon/bm-counsel-get-list (bookmark-overlays)
+       "TODO: docstring.
+    Arguments: BOOKMARK-OVERLAYS."
+       (-map (lambda (bm)
+               (with-current-buffer (overlay-buffer bm)
+                 (let* ((line (replace-regexp-in-string
+                               "\n$"
+                               ""
+                               (buffer-substring (overlay-start bm)
+                                                 (overlay-end bm))))
+                        ;; line numbers start on 1
+                        (line-num (+ 1 (count-lines (point-min) (overlay-start bm))))
+                        (name (format "%s:%d - %s" (buffer-name) line-num line)))
+                   `(,name . ,bm))))
+             bookmark-overlays))
+
+
+     (defun poseidon/bm-counsel-find-bookmark ()
+       "TODO: docstring.
+    Arguments: none."
+       (interactive)
+       (let* ((bm-list (poseidon/bm-counsel-get-list (bm-overlays-lifo-order t)))
+              (bm-hash-table (make-hash-table :test 'equal))
+              (search-list (-map (lambda (bm) (car bm)) bm-list)))
+         (-each bm-list (lambda (bm)
+                          (puthash (car bm) (cdr bm) bm-hash-table)))
+         (ivy-read "Find bookmark: "
+                   search-list
+                   :require-match t
+                   :keymap counsel-describe-map
+                   :action (lambda (chosen)
+                             (let ((bookmark (gethash chosen bm-hash-table)))
+                               (switch-to-buffer (overlay-buffer bookmark))
+                               (bm-goto bookmark)))
+                   :sort t)))
+
+                                           ;(global-unset-key (kbd "<C-tab>"))
+     (global-set-key (kbd "M-j") 'bm-toggle)
+     (global-set-key (kbd "C-c j") 'poseidon/bm-counsel-find-bookmark)
+     (global-set-key (kbd "C-c ,") 'bm-previous)
+     (global-set-key (kbd "C-c .") 'bm-next)
+     );end bm bookmarks
+  
+  
+   ;; (use-package bm)
+   ;; (setq bm-highlight-style 'bm-highlight-only-line)
+
+   ;; (global-set-key (kbd "<C-f2>") 'bm-toggle)
+   ;; (global-set-key (kbd "<f2>") 'bm-next)
+   ;; (global-set-key (kbd "<S-f2>") 'bm-previous)
+
+#+end_src
+* Internet hacks
+
+1. This hacks done by *stack exchange* by /Lei Zhao/.
+
+      It will help to open pdf and other docs to default apps of OS.
+  
+   #+begin_src emacs-lisp
+     (defun xdg-open (filename)
+       (interactive "fFilename: ")
+       (let ((process-connection-type))
+         (start-process "" nil "xdg-open" (expand-file-name filename))))
+
+     (defun find-file-auto (orig-fun &rest args)
+       (let ((filename (car args)))
+         (if (cl-find-if
+              (lambda (regexp) (string-match regexp filename))
+              '("\\.pdf\\'" "\\.docx?\\'"))
+             (xdg-open filename)
+           (apply orig-fun args))))
+
+     (advice-add 'find-file :around 'find-file-auto)
+     #+end_src
+2. Distraction-Free
+   By ---
+   #+begin_src emacs-lisp
+
+     ;; Distraction-free screen
+     (use-package olivetti
+       :init
+       (setq olivetti-body-width .67)
+       :config
+       (defun distraction-free ()
+         "Distraction-free writing environment"
+         (interactive)
+         (if (equal olivetti-mode nil)
+             (progn
+               (window-configuration-to-register 1)
+               (delete-other-windows)
+               (text-scale-increase 0.7)
+               (setq visual-fill-column-width 120)
+               (olivetti-mode t)
+               (hide-mode-line-mode t)
+               (flyspell-mode t)
+               (toggle-frame-fullscreen))
+           (progn
+             (jump-to-register 1)
+             (setq visual-fill-column-width 150)
+             (olivetti-mode 0)
+             (toggle-frame-fullscreen)
+             (text-scale-decrease 0.7))))
+       :bind
+       (("<f9>" . distraction-free)))
+
+
+   #+end_src
 * Key-bindings
 
 #+begin_src emacs-lisp
 
-
+  (use-package vterm-toggle)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  ;;vterm keybinds  
+  ;; vterm keybinds  
   (global-set-key [f2] 'vterm-toggle)
   (global-set-key [C-f2] 'vterm-toggle-cd)
+  ;; vterm bindings end
   (global-set-key [f6] 'calc)
   (global-set-key [f5] 'dashboard-refresh-buffer)
   (global-set-key (kbd "C-x <up>") 'windmove-up)
@@ -1017,7 +1192,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
   (global-set-key (kbd "C-)") 'display-line-numbers-mode)
-  (global-set-key (kbd "C-(") 'hide-mode-line-mode)
+  ;; (global-set-key (kbd "C-(") 'hide-mode-line-mode)
   ;; (global-unset-key (kbd "C-n"))
   ;; (global-unset-key (kbd "C-p"))
   ;; (global-unset-key (kbd "C-f"))
@@ -1040,6 +1215,64 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-<tab>")  'crux-indent-defun)
   (global-set-key (kbd "C-x K") 'crux-kill-other-buffers)
   (global-set-key (kbd "M-P") 'flyspell-mode)
-  
+
 #+end_src
-* Python-Jupyter
+* Set faces
+/Ff/
+#+begin_src emacs-lisp
+   (use-package mixed-pitch
+     :hook
+     ;; If you want it in all text modes:
+     (text-mode . mixed-pitch-mode)
+     :config
+     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
+     (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
+     ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
+
+   (custom-theme-set-faces
+       'user
+       '(window-divider ((t (:foreground "#ECEFF1"))))
+       '(window-divider-last-pixel ((t (:foreground "#ECEFF1"))))
+       '(window-divider-first-pixel ((t (:foreground "#ECEFF1"))))
+       '(window-divider ((t (:foreground "#ECEFF1"))))
+       '(bm-fringe-persistent-face ((t (:background "lemon chiffon" :foreground "black"))))
+       '(bm-persistent-face ((t (:background "lemon chiffon" :foreground "black"))))
+       '(nano-modeline-active-status-RO ((t (:inherit (nano-subtle nano-strong) :background "#D8E0E6" :foreground "white"))))
+       '(org-block ((t (:inherit fixed-pitch))))
+       '(org-code ((t (:inherit (shadow fixed-pitch)))))
+       '(org-document-title ((t (:height 140 :weight bold))))
+       '(org-tag ((t (:height 100))))
+       '(dired-filetype-execute ((t (:foreground "red"))))
+       '(dired-filetype-image ((t (:foreground "gray47"))))
+       '(dired-filetype-plain ((t (:foreground "gold4"))))
+       '(dired-filetype-source ((t (:foreground "chocolate"))))
+       '(dired-filetype-video ((t (:foreground "gainsboro"))))
+       '(dired-filetype-xml ((t (:foreground "dark cyan"))))
+       '(italic ((t (:inherit nano-faded :slant italic))))
+       '(ivy-org ((t (:inherit org-level-1))))
+       '(org-level-1 ((t (:height 1.1 :foreground "#8b4513"))))
+       '(org-level-2 ((t (:height 1.08 :foreground "#cd661d"))))
+       '(org-level-3 ((t (:height 1.05 :foreground "#ee7621"))))
+       '(org-level-4 ((t (:height 1.03 :foreground "#ff7f24"))))
+       '(org-level-5 ((t (:foreground "#ff7f24"))))
+       '(markdown-header-face-1 ((t (:height 1.1 :foreground "#8b4513"))))
+       '(markdown-header-face-2 ((t (:height 1.08 :foreground "#cd661d"))))
+       '(markdown-header-face-3 ((t (:height 1.05 :foreground "#ee7621"))))
+       '(markdown-header-face-4 ((t (:height 1.03 :foreground "#ff7f24"))))
+       '(markdown-header-face-5 ((t (:foreground "#ff7f24"))))
+       '(org-special-keyword ((t (:height 100))))
+       '(org-document-info ((t (:height 100))))
+       '(org-document-info-keyword ((t (:height 100))))
+       '(org-property-value ((t (:height 100))))
+       '(org-meta-line ((t (:height 100))))
+       '(org-verbatim ((t (:inherit fixed-pitch))))
+       '(org-block-begin-line ((t (:height 100))))
+       '(org-block-end-line ((t (:height 100))))
+       '(org-drawer ((t (:height 100))))
+       ;;'(org-date ((t (:inherit variable-pitch)))
+       '(org-link ((t (:underline t)))))
+#+end_src
+* Magit
+#+begin_src emacs-lisp
+(use-package magit)
+#+end_src
