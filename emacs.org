@@ -1141,6 +1141,8 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
      (advice-add 'find-file :around 'find-file-auto)
      #+end_src
+
+     NEw change
 2. Distraction-Free
    By ---
    #+begin_src emacs-lisp
