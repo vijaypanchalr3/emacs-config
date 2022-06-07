@@ -863,11 +863,11 @@ This  is code i took from Systemcrafters =linkfdjk= ,
     (interactive)
     (nano-theme-toggle)
     )
-      ;;;###autoload
+             ;;;###autoload
   (defun crux-duplicate-current-line-or-region (arg)
     "Duplicates the current line or region ARG times.
-      If there's no region, the current line will be duplicated.  However, if
-      there's a region, all lines that region covers will be duplicated."
+             If there's no region, the current line will be duplicated.  However, if
+             there's a region, all lines that region covers will be duplicated."
     (interactive "p")
     (pcase-let* ((origin (point))
                  (`(,beg . ,end) (crux-get-positions-of-line-or-region))
@@ -883,7 +883,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
   (defun crux-smart-open-line-above ()
     "Insert an empty line above the current line.
-                Position the cursor at its beginning, according to the current mode."
+                       Position the cursor at its beginning, according to the current mode."
     (interactive)
     (move-beginning-of-line nil)
     (insert "\n")
@@ -910,7 +910,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
   (defun crux-kill-other-buffers ()
     "Kill all buffers but the current one.
-              Doesn't mess with special buffers."
+                     Doesn't mess with special buffers."
     (interactive)
     (when (y-or-n-p "Are you sure you want to kill all buffers but the current one? ")
       (seq-each
@@ -943,7 +943,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
       (mark-defun)
       (indent-region (region-beginning) (region-end))))
 
- 
+
 
 
 #+end_src
@@ -1119,7 +1119,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
    ;; (global-set-key (kbd "<S-f2>") 'bm-previous)
 
 #+end_src
-* Internet hacks
+* Hacks
 :PROPERTIES:
 :ORDERED:  t
 :END:
@@ -1145,12 +1145,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
      (advice-add 'find-file :around 'find-file-auto)
      #+end_src
 
-     I can make any thing via e-lisp.
-     Suppose this can opoen files in default app
 
-     I can use git like pro
 2. Distraction-Free
-   By ---
+
    #+begin_src emacs-lisp
 
      ;; Distraction-free screen
@@ -1199,6 +1196,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-x <left>") 'windmove-left)
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
+  (global-set-key (kbd "M-P") 'flyspell-mode)
+
+  
   (global-set-key (kbd "C-)") 'display-line-numbers-mode)
   ;; (global-set-key (kbd "C-(") 'hide-mode-line-mode)
   ;; (global-unset-key (kbd "C-n"))
@@ -1217,12 +1217,11 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   ;; (global-set-key (kbd "C-k") 'previous-line)
   (global-set-key [(ctrl shift k)] 'crux-duplicate-current-line-or-region)
   (global-set-key [(ctrl =)] 'crux-smart-open-line-above)
-  (global-set-key [(ctrl +)] 'smart-enter)
+  (global-set-key (kbd "<kp-enter>") 'smart-enter)
   (global-set-key [(meta shift up)]  'move-line-up)
   (global-set-key [(meta shift down)]  'move-line-down)
   (global-set-key (kbd "C-<tab>")  'crux-indent-defun)
   (global-set-key (kbd "C-x K") 'crux-kill-other-buffers)
-  (global-set-key (kbd "M-P") 'flyspell-mode)
 
 #+end_src
 * Set faces
