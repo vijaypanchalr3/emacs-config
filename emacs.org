@@ -69,41 +69,42 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 #+begin_src emacs-lisp
 
-  (dolist (mode '(org-mode-hook
-                  vterm-mode-hook
-                  eshell-mode-hook
-                  markdown-mode-hook
-                  helpful-mode-hook
-                  Custom-mode-hook
-                  LaTeX-mode-hook
-                  text-mode-hook
-                  inferior-python-mode-hook
-                  dired-mode-hook
-                  neotree-mode-hook
-                  image-mode-hook
-                  help-mode-hook
-                  Man-mode-hook
-                  calc-mode-hook
-                  Info-mode-hook
-                  calc-trail-mode-hook))
-    (add-hook mode(lambda () (display-line-numbers-mode 0))))
-  (use-package hide-mode-line)
-  (dolist (mode '(neotree-mode-hook
-                  dashboard-mode-hook
-                  image-mode-hook
-                  vterm-mode-hook
-                  magit-mode-hook
-                  help-mode-hook
-                  package-menu-mode-hook
-                  calc-mode-hook
-                  text-mode-hook
-                  dired-mode-hook
-                  calc-trail-mode-hook))
-    (add-hook mode(lambda () (hide-mode-line-mode 1))))
-  (dolist (mode '(org-mode-hook))
-    (add-hook mode(lambda () (org-num-mode 1))))
-  (setq-default line-spacing 4)
-  
+    (dolist (mode '(org-mode-hook
+                    vterm-mode-hook
+                    eshell-mode-hook
+                    markdown-mode-hook
+                    helpful-mode-hook
+                    Custom-mode-hook
+                    LaTeX-mode-hook
+                    text-mode-hook
+                    inferior-python-mode-hook
+                    dired-mode-hook
+                    neotree-mode-hook
+                    image-mode-hook
+                    help-mode-hook
+                    Man-mode-hook
+                    calc-mode-hook
+                    Info-mode-hook
+                    term-mode-hook
+                    calendar-mode-hook
+                    calc-trail-mode-hook))
+      (add-hook mode(lambda () (display-line-numbers-mode 0))))
+    (use-package hide-mode-line)
+    (dolist (mode '(neotree-mode-hook
+                    dashboard-mode-hook
+                    image-mode-hook
+                    vterm-mode-hook
+                    magit-mode-hook
+                    help-mode-hook
+                    package-menu-mode-hook
+                    calc-mode-hook
+                    text-mode-hook
+                    dired-mode-hook
+                    calc-trail-mode-hook))
+      (add-hook mode(lambda () (hide-mode-line-mode 1))))
+    (dolist (mode '(org-mode-hook))
+      (add-hook mode(lambda () (org-num-mode 1))))
+    (setq-default line-spacing 4)
 
 #+end_src
 * Tangle automation
@@ -123,28 +124,20 @@ This block help me to tangle automatically everytime i save this file.d
  #+end_src
 
  #+RESULTS: 
+* Windows
+#+begin_src emacs-lisp
+  ;;(setq split-height-threshold 0)
+  ;; ;;(setq split-width-threshold 0)
+  ;; (use-package winner-mode
+    ;; :ensure nil
+    ;; :config
+    ;; (winner-mode))
+#+end_src
 * Modeline
 
 #+begin_src emacs-lisp
 
   (use-package all-the-icons)
-      ;; (use-package doom-modeline
-      ;;   :init (doom-modeline-mode 1)
-      ;;   :config
-      ;;   (setq doom-modeline-height 25)
-      ;;   (setq doom-modeline-buffer-modification-icon t)
-      ;;   (setq doom-modeline-hud nil)
-      ;;   (setq doom-modeline-bar-width 20)
-      ;;   (setq doom-modeline-modal-icon t)
-      ;;   (setq doom-modeline-window-width-limit fill-column)
-      ;;   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
-      ;;   (setq doom-modeline-buffer-modification-icon nil)
-      ;;   (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode)))
-  ;; (use-package nano-theme
-  ;;   :ensure nil
-  ;;   :defer t
-  ;;   :config
-  ;;   (load-theme 'nano-light t))
   (use-package nano-modeline
       :init (nano-modeline-mode 1))
   (setq no-mode-line t)
@@ -153,8 +146,8 @@ This block help me to tangle automatically everytime i save this file.d
 
 #+begin_src emacs-lisp
   ;; set transparency
-  ;; (set-frame-parameter (selected-frame) 'alpha '(98 98))
-  ;; (add-to-list 'default-frame-alist '(alpha 98 98))
+  ;; (set-frame-parameter (selected-frame) 'alpha '(97 97))
+  ;; (add-to-list 'default-frame-alist '(alpha 97 97))
 #+end_src
 * Setting variables
 
@@ -191,27 +184,29 @@ This block help me to tangle automatically everytime i save this file.d
 #+begin_src emacs-lisp
 
 
-(use-package ivy
-  :diminish
-  :bind (:map ivy-minibuffer-map
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-(use-package ivy-explorer
-  :config
-  (ivy-explorer-mode 1))
+    (use-package ivy
+      :diminish
+      :bind (:map ivy-minibuffer-map
+                  ("C-l" . ivy-alt-done)
+                  ("C-j" . ivy-next-line)
+                  ("C-k" . ivy-previous-line)
+                  :map ivy-switch-buffer-map
+                  ("C-k" . ivy-previous-line)
+                  ("C-l" . ivy-done)
+                  ("C-d" . ivy-switch-buffer-kill)
+                  :map ivy-reverse-i-search-map
+                  ("C-k" . ivy-previous-line)
+                  ("C-d" . ivy-reverse-i-search-kill))
+      :config
+      (ivy-mode 1))
+    ;;   (setq ivy-height 4))
+    (
+     use-package ivy-explorer
+      :config
+      (ivy-explorer-mode 1))
 
-(use-package ivy-rich)
-(ivy-rich-mode 1)
+    (use-package ivy-rich)
+    (ivy-rich-mode 1)
 
 
 #+end_src
@@ -274,22 +269,6 @@ This block help me to tangle automatically everytime i save this file.d
 
 
 #+end_src
-** smooth scrolling
-#+begin_src emacs-lisp
-  (use-package smooth-scrolling)
-  ;; (smooth-scrolling-mode 1)
-  ;;(use-package sublimity)
-    ;; (use-package sublimity-scroll)
-    ;; (use-package sublimity-attractive)
-    ;;
-  ;;(sublimity-mode 1)
-  ;; (setq sublimity-attractive-centering-width 150)
-  ;; (setq sublimity-attractive-centering-width 110)
-
-  ;; (setq sublimity-scroll-weight 10
-  ;;    sublimity-scroll-drift-length 5)
-  ;; (setq sublimity-scroll-vertical-frame-delay 0.01)
-#+end_src
 * Org-mode
 
 Emacs Org mode is super Powerful and super customizable. this is small customization of emacs org mode.
@@ -323,15 +302,16 @@ Basic customization for Org mode
   (setq org-startup-indented t
         org-pretty-entities t
         org-startup-with-inline-images t
+        ;;org-startup-latex-with-latex-preview t
         org-image-actual-width (list 550))
   (setq org-cycle-separator-lines 1)
   (setq org-log-done nil)
   (setq org-html-coding-system 'utf-8-unix)
-  (eval-after-load "org"
-    '(require 'ox-gfm nil t))
+  ;;(eval-after-load "org"
+  ;;  '(require 'ox-gfm nil t))
   (setq org-html-table-default-attributes
         '(:border "0" :cellspacing "0" :cellpadding "6" :rules "none" :frame "none"))
-
+  (use-package flyspell-correct-ivy)
 
 #+end_src
 ** Org-bullets
@@ -367,38 +347,27 @@ Basic customization for Org mode
 
 #+begin_src emacs-lisp
 
-    (defun new-info-mode-fun ()
-      (setq visual-fill-column-center-text t
-            visual-fill-column-width 90)
-      (visual-fill-column-mode 1))
-    (add-hook 'Info-mode-hook 'new-info-mode-fun)
+  (defun new-info-mode-fun ()
+    (setq visual-fill-column-center-text t
+          visual-fill-column-width 90)
+    (visual-fill-column-mode 1))
+  (add-hook 'Info-mode-hook 'new-info-mode-fun)
+  (add-hook 'calendar-mode-hook 'new-info-mode-fun)
 
+  (defun efs/org-mode-visual-fill ()
+    (setq visual-fill-column-width 150
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1)
+    (visual-line-mode 1)
+    (variable-pitch-mode 1))
 
-    (defun efs/org-mode-visual-fill ()
-      (setq visual-fill-column-width 150
-            visual-fill-column-center-text t)
-      (visual-fill-column-mode 1)
-      (visual-line-mode 1)
-      (variable-pitch-mode 1))
-      ;;(writeroom-mode 1)
-      ;;(electric-pair-mode 0)
-      ;;(org-indent-mode 1)
+  (use-package visual-fill-column
+    :hook '((org-mode . efs/org-mode-visual-fill)))
+  (add-hook 'markdown-mode-hook 'efs/org-mode-visual-fill)
+  (add-hook 'text-mode-hook 'efs/org-mode-visual-fill)
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; :hook '((text-mode . efs/org-mode-visual-fill))
 
-    (use-package visual-fill-column
-      :hook '((org-mode . efs/org-mode-visual-fill)))
-    (add-hook 'markdown-mode-hook 'efs/org-mode-visual-fill)
-    (add-hook 'text-mode-hook 'efs/org-mode-visual-fill)
-    (add-hook 'org-mode-hook 'org-indent-mode)
-    ;; :hook '((text-mode . efs/org-mode-visual-fill))
-    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-
-#+end_src
-** Font setting for Org mode
- djk fk fkdjsfe abcdfghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ =Abcsfljfl= *dkfaj jkjkjkd* /fjkjskl/ /asdfhjhjhj/ 
-#+begin_src emacs-lisp
-
-  
 
 
 #+end_src
@@ -415,7 +384,8 @@ This is give way to use language in emacs org mode for execution.
    (org-babel-do-load-languages
     'org-babel-load-languages
     '((emacs-lisp . t)
-      (python . t)))
+      (python . t)
+      (julia . t)))
 
 
  #+end_src
@@ -495,6 +465,34 @@ I will make bullets iconful,
 (setq abbrev-expand-function (lambda ()
                    (unless (org-in-src-block-p)
                  (abbrev--default-expand))))
+
+#+end_src
+** Org-remark-mark
+
+#+begin_src emacs-lisp
+  ;; Key-bind `org-remark-mark' to global-map so that you can call it
+  ;; globally before the library is loaded.
+  (use-package org-remark)
+  (define-key global-map (kbd "C-c r m") #'org-remark-mode)
+
+  ;; The rest of keybidings are done only on loading `org-remark'
+  (with-eval-after-load 'org-remark
+    (define-key org-remark-mode-map (kbd "C-c r o") #'org-remark-open)
+    (define-key org-remark-mode-map (kbd "C-c r ]") #'org-remark-view-next)
+    (define-key org-remark-mode-map (kbd "C-c r [") #'org-remark-view-prev)
+    (define-key org-remark-mode-map (kbd "C-c r r") #'org-remark-remove)
+    (define-key org-remark-mode-map (kbd "C-c r h") #'org-remark-mark)
+    (define-key org-remark-mode-map (kbd "C-c r w") #'org-remark-mark-red-line)
+    (define-key org-remark-mode-map (kbd "C-c r d") #'org-remark-delete))
+
+  (org-remark-create "red-line"
+                     '(:underline (:color "red" :style line))
+                     '(CATEGORY "review" help-echo "Review this"))
+  ;; (org-remark-create "yellow"
+  ;;                    '(:underline "gold" :background "lemon chiffon")
+  ;;                    '(CATEGORY "important"))
+
+
 
 #+end_src
 * Markdown-mode
@@ -590,7 +588,7 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+begin_src emacs-lisp
 
-  
+
   ;; (use-package python-mode
   ;;   :ensure nil
   ;;   :hook (python-mode . lsp-deferred))
@@ -609,10 +607,10 @@ LSP mode is single hand funcyion for making emacs ide.
 
 #+begin_src emacs-lisp
 
-  (use-package lsp-julia
-    :ensure t
-    :hook (julia-mode . (lambda () (lsp))))
-  
+  ;; (use-package lsp-julia
+  ;;   :ensure t
+  ;;   :hook (julia-mode . (lambda () (lsp))))
+
 #+end_src
 *** C and C++
 #+begin_src emacs-lisp
@@ -624,11 +622,10 @@ LSP mode is single hand funcyion for making emacs ide.
 *** Rust
 #+begin_src emacs-lisp
 
-  (setq lsp-rust-analyzer-server-command (list (substring (shell-command-to-string "rustup which rust-analyzer") 0 -1)))
   ;; (setq lsp-rust-analyzer-server-command (list (substring (shell-command-to-string "rustup which rls") 0 -1)))
+
+  (setq lsp-rust-analyzer-server-command (list (substring (shell-command-to-string "rustup which rust-analyzer") 0 -1)))
   (use-package cargo)
-
-
   (use-package rustic
     :ensure
     :bind (:map rustic-mode-map
@@ -726,24 +723,24 @@ I'm using vterm but i am just configuring Eshell
 #+begin_src emacs-lisp
 
 
-  (defun efs/configure-eshell ()
-    ;; Save command history when commands are entered
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-    ;; Truncate buffer for performance
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-    (setq eshell-history-size         10000
-          eshell-buffer-maximum-lines 10000
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t))
-  (use-package eshell-git-prompt
-    :after eshell)
-  (use-package eshell
-    :hook (eshell-first-time-mode . efs/configure-eshell)
-    :config
-    (with-eval-after-load 'esh-opt
-      (setq eshell-destroy-buffer-when-process-dies t)
-      (setq eshell-visual-commands '("htop" "zsh" "vim")))
-    (eshell-git-prompt-use-theme 'robbyrussell))
+  ;; (defun efs/configure-eshell ()
+  ;;   ;; Save command history when commands are entered
+  ;;   (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+  ;;   ;; Truncate buffer for performance
+  ;;   (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+  ;;   (setq eshell-history-size         10000
+  ;;         eshell-buffer-maximum-lines 10000
+  ;;         eshell-hist-ignoredups t
+  ;;         eshell-scroll-to-bottom-on-input t))
+  ;; (use-package eshell-git-prompt
+  ;;   :after eshell)
+  ;; (use-package eshell
+  ;;   :hook (eshell-first-time-mode . efs/configure-eshell)
+  ;;   :config
+  ;;   (with-eval-after-load 'esh-opt
+  ;;     (setq eshell-destroy-buffer-when-process-dies t)
+  ;;     (setq eshell-visual-commands '("htop" "zsh" "vim")))
+  ;;   (eshell-git-prompt-use-theme 'robbyrussell))
   (use-package vterm
     :ensure t)
 
@@ -768,7 +765,7 @@ I'm using vterm but i am just configuring Eshell
   (setq dashboard-show-shortcuts t)
   (setq dashboard-items '((recents  . 10)
                           (bookmarks . 10)))
-  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-heading-icons nil)
   (setq dashboard-set-file-icons nil)
   (setq dashboard-set-navigator t)
   ;;(dashboard-modify-heading-icons '((recents . "file-text")
@@ -817,8 +814,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (use-package dimmer
     :init (dimmer-mode 1)
     :custom (dimmer-fraction 0.7))
+    ;; (dimmer-buffer-exclusion-regexps "^\\*Calender\\*$"))
 
-  
+
   ;;(setq window-divider-default-bottom-width 4
   ;;      window-divider-default-right-width 4)
 #+end_src
@@ -849,6 +847,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   ;;   (forward-line -1))
 
 
+  ;; (defun hide-those-params-on-top ()
+  ;;   (interactive)
+  ;;   )
   (defun crux-get-positions-of-line-or-region ()
     "Return positions (beg . end) of the current line or region."
     (let (beg end)
@@ -966,6 +967,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 #+begin_src emacs-lisp
   ;;
   (setq nano-modeline-prefix-padding t)
+  ;; (setq nord-region-highlight "frost")
 #+end_src
 * Better Dired
 ** Dired-single
@@ -1126,7 +1128,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
 1. This hacks done by *stack exchange* by /Lei Zhao/.
 
-      It will help to open pdf and other docs to default apps of OS.
+   It will help to open pdf and other docs to default apps of OS.
   
    #+begin_src emacs-lisp
      (defun xdg-open (filename)
@@ -1144,16 +1146,49 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
      (advice-add 'find-file :around 'find-file-auto)
      #+end_src
-
-
 2. Distraction-Free
 
    #+begin_src emacs-lisp
-
-     ;; Distraction-free screen
      (use-package olivetti
        :init
-       (setq olivetti-body-width .67)
+       ;;(setq olivetti-body-width .110)
+       :config
+       (defun prog-distraction-free ()
+         "Distraction-free writing environment"
+         (interactive)
+         (if (equal olivetti-mode nil)
+             (progn
+               (window-configuration-to-register 1)
+               (delete-other-windows)
+               ;;(text-scale-increase 1)
+               ;;(setq visual-fill-column-width 110)
+               ;;(visual-fill-column-mode 0)
+               (olivetti-mode t)            
+               (setq olivetti-margin-width 0)
+               (setq olivetti-minimum-width 94)
+               (nano-modeline-mode 0)
+               (hide-mode-line-mode 0)
+               ;;(flyspell-mode t)
+               ;;(beginning-of-buffer)
+               ;;(org-hide-entry)
+               (toggle-frame-fullscreen))
+           (progn
+             (jump-to-register 1)
+             ;;(beginning-of-buffer)
+             (nano-modeline-mode 1)
+             ;;(org-show-entry)
+             ;;(visual-fill-column-mode t)
+             ;; (setq visual-fill-column-width 150)
+             (olivetti-mode 0)
+             (toggle-frame-fullscreen))))
+             ;;(text-scale-decrease 1))))
+       :bind
+       (("<f11>" . prog-distraction-free)))
+     ;; Distraction-free screen
+     ;; for org mode
+     (use-package olivetti
+       :init
+       ;;(setq olivetti-body-width .110)
        :config
        (defun distraction-free ()
          "Distraction-free writing environment"
@@ -1162,29 +1197,53 @@ This  is code i took from Systemcrafters =linkfdjk= ,
              (progn
                (window-configuration-to-register 1)
                (delete-other-windows)
-               (text-scale-increase 0.7)
-               (setq visual-fill-column-width 120)
+               (text-scale-increase 1)
+               ;;(setq visual-fill-column-width 110)
+               (visual-fill-column-mode 0)
                (olivetti-mode t)
-               (hide-mode-line-mode t)
+               (setq olivetti-margin-width 7)
+               (setq olivetti-minimum-width 40)
+               (nano-modeline-mode 0)
+               (hide-mode-line-mode 0)
                (flyspell-mode t)
+               (beginning-of-buffer)
+               (org-hide-entry)
                (toggle-frame-fullscreen))
            (progn
              (jump-to-register 1)
-             (setq visual-fill-column-width 150)
+             (beginning-of-buffer)
+             (nano-modeline-mode 1)
+             (org-show-entry)
+             (visual-fill-column-mode t)
+             ;; (setq visual-fill-column-width 150)
              (olivetti-mode 0)
              (toggle-frame-fullscreen)
-             (text-scale-decrease 0.7))))
+             (text-scale-decrease 1))))
        :bind
        (("<f9>" . distraction-free)))
 
+     ;; for prog modes
+
 
    #+end_src
+3. Backups
+
+   #+begin_src emacs-lisp
+     (setq backup-directory-alist
+           `((".*" . ,temporary-file-directory)))
+     (setq auto-save-file-name-transforms
+           `((".*" ,temporary-file-directory t)))
+
+     (fset 'yes-or-no-p 'y-or-n-p)
+     
+   #+end_src   
 * Key-bindings
 
 #+begin_src emacs-lisp
 
   (use-package vterm-toggle)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  
   ;; vterm keybinds  
   (global-set-key [f2] 'vterm-toggle)
   (global-set-key [C-f2] 'vterm-toggle-cd)
@@ -1197,8 +1256,10 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-x <right>") 'windmove-right)
   (global-set-key (kbd "M-p") 'flyspell-correct-at-point)
   (global-set-key (kbd "M-P") 'flyspell-mode)
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  (global-set-key (kbd "C-x d") 'dired-jump)
+  (global-set-key (kbd "C-x D") 'dired)
 
-  
   (global-set-key (kbd "C-)") 'display-line-numbers-mode)
   ;; (global-set-key (kbd "C-(") 'hide-mode-line-mode)
   ;; (global-unset-key (kbd "C-n"))
@@ -1217,7 +1278,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   ;; (global-set-key (kbd "C-k") 'previous-line)
   (global-set-key [(ctrl shift k)] 'crux-duplicate-current-line-or-region)
   (global-set-key [(ctrl =)] 'crux-smart-open-line-above)
-  (global-set-key (kbd "<kp-enter>") 'smart-enter)
+  ;;(global-set-key (kbd "<kp-enter>") 'smart-enter)
   (global-set-key [(meta shift up)]  'move-line-up)
   (global-set-key [(meta shift down)]  'move-line-down)
   (global-set-key (kbd "C-<tab>")  'crux-indent-defun)
@@ -1227,59 +1288,98 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 * Set faces
 /Ff/
 #+begin_src emacs-lisp
-   (use-package mixed-pitch
-     :hook
-     ;; If you want it in all text modes:
-     (text-mode . mixed-pitch-mode)
-     :config
-     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-     (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
-     ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
+  (use-package mixed-pitch
+    ;;:hook
+    ;; If you want it in all text modes:
+    ;; (text-mode . mixed-pitch-mode)
+    :config
+    (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
+    (set-face-attribute 'variable-pitch nil :font "Alegreya" :height 150))
+    ;; (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
+    ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
 
-   (custom-theme-set-faces
-       'user
-       '(window-divider ((t (:foreground "#ECEFF1"))))
-       '(window-divider-last-pixel ((t (:foreground "#ECEFF1"))))
-       '(window-divider-first-pixel ((t (:foreground "#ECEFF1"))))
-       '(window-divider ((t (:foreground "#ECEFF1"))))
-       '(bm-fringe-persistent-face ((t (:background "lemon chiffon" :foreground "black"))))
-       '(bm-persistent-face ((t (:background "lemon chiffon" :foreground "black"))))
-       '(nano-modeline-active-status-RO ((t (:inherit (nano-subtle nano-strong) :background "#D8E0E6" :foreground "white"))))
-       '(org-block ((t (:inherit fixed-pitch))))
-       '(org-code ((t (:inherit (shadow fixed-pitch)))))
-       '(org-document-title ((t (:height 140 :weight bold))))
-       '(org-tag ((t (:height 100))))
-       '(dired-filetype-execute ((t (:foreground "red"))))
-       '(dired-filetype-image ((t (:foreground "gray47"))))
-       '(dired-filetype-plain ((t (:foreground "gold4"))))
-       '(dired-filetype-source ((t (:foreground "chocolate"))))
-       '(dired-filetype-video ((t (:foreground "gainsboro"))))
-       '(dired-filetype-xml ((t (:foreground "dark cyan"))))
-       '(italic ((t (:inherit nano-faded :slant italic))))
-       '(ivy-org ((t (:inherit org-level-1))))
-       '(org-level-1 ((t (:height 1.1 :foreground "#8b4513"))))
-       '(org-level-2 ((t (:height 1.08 :foreground "#cd661d"))))
-       '(org-level-3 ((t (:height 1.05 :foreground "#ee7621"))))
-       '(org-level-4 ((t (:height 1.03 :foreground "#ff7f24"))))
-       '(org-level-5 ((t (:foreground "#ff7f24"))))
-       '(markdown-header-face-1 ((t (:height 1.1 :foreground "#8b4513"))))
-       '(markdown-header-face-2 ((t (:height 1.08 :foreground "#cd661d"))))
-       '(markdown-header-face-3 ((t (:height 1.05 :foreground "#ee7621"))))
-       '(markdown-header-face-4 ((t (:height 1.03 :foreground "#ff7f24"))))
-       '(markdown-header-face-5 ((t (:foreground "#ff7f24"))))
-       '(org-special-keyword ((t (:height 100))))
-       '(org-document-info ((t (:height 100))))
-       '(org-document-info-keyword ((t (:height 100))))
-       '(org-property-value ((t (:height 100))))
-       '(org-meta-line ((t (:height 100))))
-       '(org-verbatim ((t (:inherit fixed-pitch))))
-       '(org-block-begin-line ((t (:height 100))))
-       '(org-block-end-line ((t (:height 100))))
-       '(org-drawer ((t (:height 100))))
-       ;;'(org-date ((t (:inherit variable-pitch)))
-       '(org-link ((t (:underline t)))))
+  (custom-theme-set-faces
+      'user
+      '(window-divider ((t :foreground "#434C5E" :background "#434C5E")))
+      '(window-divider-last-pixel ((t :foreground "#434C5E" :background "#434C5E")))
+      '(window-divider-first-pixel ((t :foreground "#434C5E" :background "#434C5E")))
+      ;; '(window-divider ((t (:inherit (nano-strong)) :foreground "#434C5E" :background "#434C5E")))
+      '(bm-fringe-persistent-face ((t :background "#434C5E")))
+      '(bm-persistent-face ((t :background "#434C5E")))
+      ;;'(nano-modeline-active-status-RO ((t (:inherit (nano-subtle nano-strong) :background "#606C83" :foreground "#434C5E"))))
+      '(org-block ((t (:inherit fixed-pitch))))
+      '(org-code ((t (:inherit (shadow fixed-pitch)))))
+      '(org-document-title ((t (:height 140 :weight bold))))
+      '(org-tag ((t (:height 100))))
+      '(dired-filetype-execute ((t (:foreground "red"))))
+      '(dired-filetype-image ((t (:foreground "gray47"))))
+      '(dired-filetype-plain ((t (:foreground "gold4"))))
+      '(dired-filetype-source ((t (:foreground "chocolate"))))
+      '(dired-filetype-video ((t (:foreground "gainsboro"))))
+      '(dired-filetype-xml ((t (:foreground "dark cyan"))))
+      '(italic ((t (:inherit nano-faded :slant italic))))
+      '(ivy-org ((t (:inherit org-level-1))))
+      '(org-level-1 ((t (:height 1.1 :foreground "#bf616a"))))
+      '(org-level-2 ((t (:height 1.08 :foreground "#d08770"))))
+      '(org-level-3 ((t (:height 1.05 :foreground "#ebcb8b"))))
+      '(org-level-4 ((t (:height 1.03 :foreground "#a3be8c"))))
+      '(org-level-5 ((t (:foreground "#b48ead"))))
+      '(markdown-header-face-1 ((t (:height 1.1 :foreground "#bf616a"))))
+      '(markdown-header-face-2 ((t (:height 1.08 :foreground "#d08770"))))
+      '(markdown-header-face-3 ((t (:height 1.05 :foreground "#ebcb8b"))))
+      '(markdown-header-face-4 ((t (:height 1.03 :foreground "#a3be8c"))))
+      '(markdown-header-face-5 ((t (:foreground "#b48ead"))))
+      '(org-special-keyword ((t (:height 100))))
+      '(org-document-info ((t (:height 100))))
+      '(org-document-info-keyword ((t (:height 100))))
+      '(org-property-value ((t (:height 100))))
+      '(org-meta-line ((t (:height 100))))
+      '(org-verbatim ((t (:inherit fixed-pitch))))
+      '(org-block-begin-line ((t (:height 100))))
+      '(org-block-end-line ((t (:height 100))))
+      '(org-drawer ((t (:height 100))))
+      ;;'(region ((t (:inherit nano-subtle :foreground "#2E3440" :background "#88c0d0"))))
+      ;;'(org-date ((t (:inherit variable-pitch)))
+      '(org-link ((t (:underline t)))))
 #+end_src
 * Magit
 #+begin_src emacs-lisp
 (use-package magit)
 #+end_src
+* Emojify
+#+begin_src emacs-lisp
+(use-package emojify
+  :config
+  (when (member "Segoe UI Emoji" (font-family-list))
+    (set-fontset-font
+     t 'symbol (font-spec :family "Segoe UI Emoji") nil 'prepend))
+  (setq emojify-display-style 'unicode)
+  (setq emojify-emoji-styles '(unicode))
+  (bind-key* (kbd "C-c e") #'emojify-insert-emoji))
+#+end_src
+* Buffers
+#+begin_src emacs-lisp
+  ;; key to begin cycling buffers.  Global key.
+  (use-package buffer-flip
+    :ensure t
+    :bind  (("M-<tab>" . buffer-flip)
+            :map buffer-flip-map
+            ( "M-<tab>" .   buffer-flip-forward) 
+            ( "M-S-<tab>" . buffer-flip-backward) 
+            ( "M-ESC" .     buffer-flip-abort))
+    :config
+    (setq buffer-flip-skip-patterns
+          '("^\\*helm\\b"
+            "^\\*lsp-log\\*$"
+            "^\\*Flymake log\\*$"
+            "^\\*pyright\\*$"
+            "^\\*pyright::stderr\\*$"
+            "^\\*clangd\\*$"
+            "^\\*clangd::stderr\\*$"
+            "^\\*rust-analyzer\\*$"
+            "^\\*rust-analyzer::stderr\\*$"
+            "^\\*Org PDF LaTex Output\\*$"
+            "^\\*Backtrace\\*$"
+            "^\\*Pandoc\\*$")))
+#+end_src
+

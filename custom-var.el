@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes '(nano-light))
+ '(custom-enabled-themes '(nano-dark))
  '(custom-safe-themes
    '("db5b906ccc66db25ccd23fc531a213a1afb500d717125d526d8ff67df768f2fc" "f0eb51d80f73b247eb03ab216f94e9f86177863fb7e48b44aacaddbfe3357cf1" default))
  '(display-time-mode t)
@@ -15,8 +15,11 @@
  '(org-blank-before-new-entry '((heading) (plain-list-item)))
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
+ '(org-format-latex-options
+   '(:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+		 ("begin" "$1" "$" "$$" "\\(" "\\[")))
  '(package-selected-packages
-   '(bm rustic dired-hide-dotfiles dired-filetype-face dired-single nano-theme vterm-toggle olivetti dimmer dashboard vterm eshell-git-prompt company lsp-julia lsp-pyright org-roam captain rainbow-delimiters which-key mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
+   '(bm rustic dired-hide-dotfiles dired-filetype-face dired-single nano-theme vterm-toggle olivetti dimmer dashboard vterm company lsp-julia lsp-pyright org-roam captain rainbow-delimiters which-key mixed-pitch writeroom-mode company-box lsp-mode visual-fill-column org-bullets helpful doom-modeline doom-themes magit))
  '(save-place-mode t)
  '(scroll-bar-mode nil)
  '(scroll-conservatively 100)
@@ -48,7 +51,7 @@
  '(markdown-header-face-3 ((t (:height 1.05 :foreground "#ee7621"))))
  '(markdown-header-face-4 ((t (:height 1.03 :foreground "#ff7f24"))))
  '(markdown-header-face-5 ((t (:foreground "#ff7f24"))))
- '(nano-modeline-active-status-RO ((t (:inherit (nano-subtle nano-strong) :background "#D8E0E6" :foreground "white"))))
+ '(nano-modeline-active-status-RO ((t (:inherit (nano-subtle nano-strong) :background "#606C83" :foreground "#434C5E"))))
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-block-begin-line ((t (:height 100))))
  '(org-block-end-line ((t (:height 100))))
