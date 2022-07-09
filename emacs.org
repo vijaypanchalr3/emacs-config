@@ -11,7 +11,9 @@
 *Emacs from Scratch Confguration*:
 [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org]] 
 
-
+#+begin_src emacs-lisp
+(setq message-log-max t)
+#+end_src
 * General settings 
 ** Encoding system
 #+begin_src emacs-lisp
@@ -102,8 +104,8 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
                     dired-mode-hook
                     calc-trail-mode-hook))
       (add-hook mode(lambda () (hide-mode-line-mode 1))))
-    (dolist (mode '(org-mode-hook))
-      (add-hook mode(lambda () (org-num-mode 1))))
+    ;; (dolist (mode '(org-mode-hook))
+    ;;   (add-hook mode(lambda () (org-num-mode 1))))
     (setq-default line-spacing 4)
 
 #+end_src
@@ -281,13 +283,14 @@ Basic customization for Org mode
 
   (use-package org
     :config
-    (setq org-ellipsis " "
-          org-hide-emphasis-markers t)
+    ;;(setq org-ellipsis " "
+    ;;      org-hide-emphasis-markers t)
     :bind
     ("<f12>" . org-cycle-list-bullet))
   (add-hook 'org-mode-hook 'org-overview)
+  (add-hook 'org-mode-hook 'org-num-mode)
   ;; (setq-default line-spacing 0)
-  (provide 'emacs-orgmode-config)
+  ;;(provide 'emacs-orgmode-config)
 
   ;; (setq org-adapt-indentation nil)
   ;; (setq org-startup-truncated t)
@@ -326,22 +329,20 @@ Basic customization for Org mode
   (setq org-indent-indentation-per-level 1)
   (setq org-adapt-indentation nil)
   (font-lock-add-keywords 'org-mode
-                            '(("^ *\\([-]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) " "))))))
   ;; (dolist (face '((org-level-1 . 1.1)
-  ;;                 (org-level-2 . 1.1)
-  ;;                 (org-level-3 . 1.05)
-  ;;                 (org-level-4 . 1.05)
-  ;;                 (org-level-5 . 1.05)
-  ;;                 (org-level-6 . 1.0)
-  ;;                 (org-level-7 . 1.0)
-  ;;                 (org-level-8 . 1.0)))
-  ;;   (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
+                  ;; (org-level-2 . 1.1)
+                  ;; (org-level-3 . 1.05)
+                  ;; (org-level-4 . 1.05)
+                  ;; (org-level-5 . 1.05)
+                  ;; (org-level-6 . 1.0)
+                  ;; (org-level-7 . 1.0)
+                  ;; (org-level-8 . 1.0)))
+    ;; (set-face-attribute (car face) nil :weight 'bold :height (cdr face)))
 
 
 #+end_src
-:custom
-  (org-bullets-bullet-list '(" "" "" "" "" "" "" "))
 ** Margin setting for Org mode
 
 
@@ -398,7 +399,7 @@ Techniqly, i can use imagemagick and i always have that but i think that's too b
 #+begin_src emacs-lisp
 
 
-  (setq org-latex-create-formula-image-program 'dvipng)
+  (setq org-preview-latex-default-process 'dvipng)
   (plist-put org-format-latex-options :scale 2)
 
 
@@ -445,7 +446,7 @@ I will make bullets iconful,
 
 
 #+end_src
-** Auto-capitalization
+** Auto-capitalization  
 
 #+begin_src emacs-lisp
   (use-package captain)
@@ -532,7 +533,7 @@ This is my first configuration and use of famous org roam.
   (use-package org-roam
     :after org
     :config
-    (org-roam-setup)
+    (org-roam-db-autosync-enable)
     :custom
     (org-roam-capture-templates
      '(("d" "default" plain
@@ -813,8 +814,8 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 #+begin_src emacs-lisp
   (use-package dimmer
     :init (dimmer-mode 1)
-    :custom (dimmer-fraction 0.7))
-    ;; (dimmer-buffer-exclusion-regexps "^\\*Calender\\*$"))
+    :custom (dimmer-fraction 0.7)
+    (dimmer-buffer-exclusion-regexps '("^\\*Calendar\\*$")))
 
 
   ;;(setq window-divider-default-bottom-width 4
@@ -1062,7 +1063,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
 
 
      ;; Restoring bookmarks
-     (add-hook 'find-file-hooks   #'bm-buffer-restore)
+     (add-hook 'find-file-hook   #'bm-buffer-restore)
      (add-hook 'after-revert-hook #'bm-buffer-restore)
 
      ;; Make sure bookmarks is saved before check-in (and revert-buffer)
@@ -1206,12 +1207,12 @@ This  is code i took from Systemcrafters =linkfdjk= ,
                (nano-modeline-mode 0)
                (hide-mode-line-mode 0)
                (flyspell-mode t)
-               (beginning-of-buffer)
+               (goto-char (point-min))
                (org-hide-entry)
                (toggle-frame-fullscreen))
            (progn
              (jump-to-register 1)
-             (beginning-of-buffer)
+             (goto-char (point-min))
              (nano-modeline-mode 1)
              (org-show-entry)
              (visual-fill-column-mode t)
@@ -1285,7 +1286,8 @@ This  is code i took from Systemcrafters =linkfdjk= ,
   (global-set-key (kbd "C-x K") 'crux-kill-other-buffers)
 
 #+end_src
-* Set faces
+* Set face
+s
 /Ff/
 #+begin_src emacs-lisp
   (use-package mixed-pitch
@@ -1294,7 +1296,7 @@ This  is code i took from Systemcrafters =linkfdjk= ,
     ;; (text-mode . mixed-pitch-mode)
     :config
     (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono NL" :height 110)
-    (set-face-attribute 'variable-pitch nil :font "Alegreya" :height 150))
+    (set-face-attribute 'variable-pitch nil :font "P22 Typewriter" :height 150))
     ;; (set-face-attribute 'variable-pitch nil :font "Noto Serif" :height 140))
     ;;(set-face-attribute 'variable-pitch nil :font "Latin Modern Sans" :height 140))
 
@@ -1382,4 +1384,32 @@ This  is code i took from Systemcrafters =linkfdjk= ,
             "^\\*Backtrace\\*$"
             "^\\*Pandoc\\*$")))
 #+end_src
+
+
+
+
+
+
+#+begin_src emacs-lisp
+(defun autocompile nil
+  "compile itself if ~/.emacs"
+  (interactive)
+  (require 'bytecomp)
+  (let ((dotemacs (file-truename user-init-file)))
+    (if (string= (buffer-file-name) (file-chase-links dotemacs))
+      (byte-compile-file dotemacs))))
+
+(add-hook 'after-save-hook 'autocompile)
+
+#+end_src
+
+
+
+
+
+
+
+
+
+
 
