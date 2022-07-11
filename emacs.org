@@ -1210,7 +1210,6 @@ This  is code i took from Systemcrafters =linkfdjk= ,
                (flyspell-mode t)
                ;;(goto-char (point-min))
                ;;(org-hide-entry)
-               (typewriter-mode t)
                (toggle-frame-fullscreen))
            (progn
              (jump-to-register 1)
@@ -1221,7 +1220,6 @@ This  is code i took from Systemcrafters =linkfdjk= ,
              ;; (setq visual-fill-column-width 150)
              (olivetti-mode 0)
              (toggle-frame-fullscreen)
-             (typewriter-mode nil)
              (text-scale-decrease 1))))
        :bind
        (("<f9>" . distraction-free)))
@@ -1411,11 +1409,11 @@ s
 
   (defun play-typewriter-sound ()
     (let ((data-directory "~/.emacs.d"))
-      (play-sound `(sound :file "typewriter-key-1.wav"))))
+      (play-sound `(sound :file "twsound.wav"))))
 
   ;;(defadvice self-insert-command (after play-a-sound activate)
   ;;    (play-typewriter-sound))
-  
+
   (define-minor-mode typewriter-mode
     "make sound of typewrite"
     :global t
@@ -1423,9 +1421,9 @@ s
         (add-hook 'post-self-insert-hook 'play-typewriter-sound)
       (remove-hook 'post-self-insert-hook 'play-typewriter-sound)))
 
-
+  ;; as of now i'm using selectric mode for optimised functionality
+  (use-package selectric-mode)
+  (add-hook 'org-mode-hook 'selectric-mode)
 
 #+end_src
-fsfjka 
-ad aj ddddfdddxfa aj k
-fhja this is my file
+
