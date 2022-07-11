@@ -71,42 +71,43 @@ This is code initializing melpa with updated elpa and org mode. which i copied f
 
 #+begin_src emacs-lisp
 
-    (dolist (mode '(org-mode-hook
-                    vterm-mode-hook
-                    eshell-mode-hook
-                    markdown-mode-hook
-                    helpful-mode-hook
-                    Custom-mode-hook
-                    LaTeX-mode-hook
-                    text-mode-hook
-                    inferior-python-mode-hook
-                    dired-mode-hook
-                    neotree-mode-hook
-                    image-mode-hook
-                    help-mode-hook
-                    Man-mode-hook
-                    calc-mode-hook
-                    Info-mode-hook
-                    term-mode-hook
-                    calendar-mode-hook
-                    calc-trail-mode-hook))
-      (add-hook mode(lambda () (display-line-numbers-mode 0))))
-    (use-package hide-mode-line)
-    (dolist (mode '(neotree-mode-hook
-                    dashboard-mode-hook
-                    image-mode-hook
-                    vterm-mode-hook
-                    magit-mode-hook
-                    help-mode-hook
-                    package-menu-mode-hook
-                    calc-mode-hook
-                    text-mode-hook
-                    dired-mode-hook
-                    calc-trail-mode-hook))
-      (add-hook mode(lambda () (hide-mode-line-mode 1))))
-    ;; (dolist (mode '(org-mode-hook))
-    ;;   (add-hook mode(lambda () (org-num-mode 1))))
-    (setq-default line-spacing 4)
+  (dolist (mode '(org-mode-hook
+                  vterm-mode-hook
+                  eshell-mode-hook
+                  markdown-mode-hook
+                  helpful-mode-hook
+                  Custom-mode-hook
+                  LaTeX-mode-hook
+                  text-mode-hook
+                  inferior-python-mode-hook
+                  dired-mode-hook
+                  neotree-mode-hook
+                  image-mode-hook
+                  help-mode-hook
+                  Man-mode-hook
+                  calc-mode-hook
+                  Info-mode-hook
+                  Archive-mode-hook
+                  term-mode-hook
+                  calendar-mode-hook
+                  calc-trail-mode-hook))
+    (add-hook mode(lambda () (display-line-numbers-mode 0))))
+  (use-package hide-mode-line)
+  (dolist (mode '(neotree-mode-hook
+                  dashboard-mode-hook
+                  image-mode-hook
+                  vterm-mode-hook
+                  magit-mode-hook
+                  help-mode-hook
+                  package-menu-mode-hook
+                  calc-mode-hook
+                  text-mode-hook
+                  dired-mode-hook
+                  calc-trail-mode-hook))
+    (add-hook mode(lambda () (hide-mode-line-mode 1))))
+  ;; (dolist (mode '(org-mode-hook))
+  ;;   (add-hook mode(lambda () (org-num-mode 1))))
+  (setq-default line-spacing 4)
 
 #+end_src
 * Tangle automation
@@ -1402,14 +1403,27 @@ s
 (add-hook 'after-save-hook 'autocompile)
 
 #+end_src
+* Typewriter sound
+
+#+begin_src emacs-lisp
+
+  (defun play-typewriter-sound ()
+    (let ((data-directory "~/.emacs.d"))
+      (play-sound `(sound :file "typewriter-key-1.wav"))))
+
+  ;;(defadvice self-insert-command (after play-a-sound activate)
+  ;;    (play-typewriter-sound))
+  
+  (define-minor-mode typewriter-mode
+    "make sound of typewrite"
+    :global t
+    (if typewriter-mode
+        (add-hook 'post-self-insert-hook 'play-typewriter-sound)
+      (remove-hook 'post-self-insert-hook 'play-typewriter-sound)))
 
 
 
-
-
-
-
-
-
-
-
+#+end_src
+fsfjka 
+ad aj ddddfdddxfa aj k
+fhja this is my file

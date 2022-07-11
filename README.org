@@ -1,0 +1,59 @@
+
+This is my custom config file for emacs. Emacs is quite old software and making it suffer from modern minimalism and design perspective is quite difficult. This is my config for making it more minimal and very friendly to myself.
+
+
+First, thank you to sir rougier for giving us NANO emacs skin, which is most minimal and modern looking emacs configuration framework i felt. I used packages and tweaked two most important part of UI (Theme and modeline). I heavily customized that theme so it's hard recognize.
+
+Now, to all programmers whom i used packages for my emacs. Please continue your good work in future, it helps many of us.
+
+Also, special thanks to deviwil from System crafters and his great youtube videos, from which i learn basic emacs and it's configuration. His github page is here [[https://github.com/daviwil/emacs-from-scratch/]]
+
+* packages i used in this config file 
+
+1. sdf
+2. ivy
+3. Ivy-ui
+4. Ivy-
+5. councel
+6. Which-key
+7. Rainbow-delimeters
+8. Nano-theme
+9. Nano-modeline
+10. Lsp mode
+11. Company
+12. Pyright
+13. clangd
+14. sadflk
+    1. fdasdffkkek;l;
+       1. sdksadfk
+       2. asdf
+       3. asdf
+       4. asdf
+       5. sdf
+       6. asdfq
+15. asdfkfkak
+    1. adsfk;l
+       
+
+    
+*Dadf*
+
+
+
+| a       | b       | fasf  | asdgfasdffsf | asdf |
+|---------+---------+-------+--------------+------|
+| dfasdf  | adfas   | asfas |              |      |
+| adsfasf | dsfsadf |       |              |      |
+| dfasdf  | asddfs  | asdfs |              |      |
+| sddf    | adsffs  | asdf  |              |      |
+| sdfaf   |         |       |              |      |
+
+
+
+
+
+
+
+
+
+
