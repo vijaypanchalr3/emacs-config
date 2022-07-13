@@ -1173,6 +1173,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
                (nano-modeline-mode 0)
                (hide-mode-line-mode 0)
                (flyspell-mode t)
+               (set-face-attribute 'default nil :background "#F9F0CB" :foreground "#000000")
+               (set-face-attribute 'nano-strong nil :foreground "#000000")
+               (set-face-attribute 'cursor nil :background "#2E3440" :foreground "#EBCB8B")
                ;;(goto-char (point-min))
                ;;(org-hide-entry)
                (selectric-mode t)
@@ -1185,6 +1188,9 @@ This  is code i took from Systemcrafters =linkfdjk= ,
              (visual-fill-column-mode t)
              ;; (setq visual-fill-column-width 150)
              (olivetti-mode 0)
+             (set-face-attribute 'default nil :background "#000000" :foreground "#ECEFF4")
+             (set-face-attribute 'nano-strong nil :foreground "#ECEFF4")
+             (set-face-attribute 'cursor nil :background "#EBCB8B" :foreground "#2E3440")
              (toggle-frame-fullscreen)
              (selectric-mode 0)
              ;;(text-scale-decrease 1)
@@ -1406,3 +1412,7 @@ s
 
 
 gg
+
+
+
+
