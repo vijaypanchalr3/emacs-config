@@ -1169,7 +1169,6 @@ This  is code i took from Systemcrafters =linkfdjk= ,
                (visual-fill-column-mode 0)
                (olivetti-mode t)
                (setq olivetti-margin-width 7)
-               (setq olivetti-minimum-width 40)
                (nano-modeline-mode 0)
                (hide-mode-line-mode 0)
                (flyspell-mode t)
